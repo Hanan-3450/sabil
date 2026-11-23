@@ -1,0 +1,31 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: sabil_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: sabil
+      POSTGRES_PASSWORD: sabil_dev_password
+      POSTGRES_DB: sabil_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - sabil_pg_data:/var/lib/postgresql/data
+
+  minio:
+    image: minio/minio:latest
+    container_name: sabil_minio
+    restart: unless-stopped
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: sabil_minio
+      MINIO_ROOT_PASSWORD: sabil_minio_password
+    ports:
+      - "9000:9000"   # S3 API endpoint
+      - "9001:9001"   # Web UI Console (http://localhost:9001)
+    volumes:
+      - sabil_minio_data:/data
+
+volumes:
+  sabil_pg_data:
+  sabil_minio_data:
