@@ -12,9 +12,9 @@ services:
     volumes:
       - sabil_pg_data:/var/lib/postgresql/data
 
-  minio:
-    image: minio/minio:latest
-    container_name: sabil_minio
+  s3:
+    image: pgsty/silo:RELEASE.2026-11-12T00-00-00Z
+    container_name: sabil_s3
     restart: unless-stopped
     command: server /data --console-address ":9001"
     environment:
@@ -24,8 +24,8 @@ services:
       - "9000:9000"   # S3 API endpoint
       - "9001:9001"   # Web UI Console (http://localhost:9001)
     volumes:
-      - sabil_minio_data:/data
+      - sabil_s3_data:/data
 
 volumes:
   sabil_pg_data:
-  sabil_minio_data:
+  sabil_s3_data:
