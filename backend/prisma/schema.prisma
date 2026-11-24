@@ -1,0 +1,128 @@
+generator client {
+  provider               = "prisma-client"
+  output                 = "../src/generated/prisma"
+  moduleFormat           = "esm"
+  generatedFileExtension = "ts"
+  importFileExtension    = "js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum TrackStatus {
+  NOT_FINISHED
+  FINISHED
+}
+
+model User {
+  id              String   @id @default(uuid())
+  name            String
+  email           String   @unique
+  passwordHash    String
+  themePreference String   @default("system")
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  categories   Category[]
+  kitabs       Kitab[]
+  audioTracks  AudioTrack[]
+  pdfBookmarks PdfBookmark[]
+  notes        Note[]
+}
+
+model Category {
+  id          String   @id @default(uuid())
+  userId      String
+  name        String
+  arabicName  String?
+  description String   @default("")
+  isDefault   Boolean  @default(false)
+  sortOrder   Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  user   User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  kitabs Kitab[]
+  notes  Note[]
+
+  @@unique([userId, name])
+  @@index([userId])
+}
+
+model Kitab {
+  id           String   @id @default(uuid())
+  userId       String
+  categoryId   String
+  title        String
+  author       String?
+  description  String   @default("")
+  pdfKey       String?
+  pdfFileName  String?
+  pdfSizeBytes Int?
+  totalPages   Int?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  user        User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  category    Category      @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  audioTracks AudioTrack[]
+  bookmarks   PdfBookmark[]
+  notes       Note[]
+
+  @@index([userId, categoryId])
+}
+
+model AudioTrack {
+  id              String      @id @default(uuid())
+  userId          String
+  kitabId         String
+  title           String
+  trackNumber     Int
+  audioKey        String
+  audioFileName   String
+  audioSizeBytes  Int?
+  durationSec     Int?
+  status          TrackStatus @default(NOT_FINISHED)
+  lastPositionSec Int         @default(0)
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  kitab Kitab @relation(fields: [kitabId], references: [id], onDelete: Cascade)
+
+  @@index([kitabId, trackNumber])
+  @@index([userId])
+}
+
+model PdfBookmark {
+  id         String   @id @default(uuid())
+  userId     String
+  kitabId    String
+  pageNumber Int      @default(1)
+  label      String?
+  updatedAt  DateTime @updatedAt
+
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  kitab Kitab @relation(fields: [kitabId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, kitabId])
+}
+
+model Note {
+  id         String   @id @default(uuid())
+  userId     String
+  categoryId String
+  kitabId    String
+  dersTitle  String
+  dersNumber Int?
+  content    String   @db.Text
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  category Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  kitab    Kitab    @relation(fields: [kitabId], references: [id], onDelete: Cascade)
+
+  @@index([userId, categoryId, kitabId])
+}
