@@ -1,49 +1,95 @@
-import { useState } from "react";
-import { BookOpen, Moon, Sun } from "lucide-react";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { ThemeProvider } from "./context/ThemeContext";
+import { AuthProvider, useAuth } from "./context/AuthContext";
+import { AppShell } from "./components/AppShell";
+import { LandingPage } from "./pages/LandingPage";
+import { LoginPage } from "./pages/LoginPage";
+import { RegisterPage } from "./pages/RegisterPage";
+import { SettingsPage } from "./pages/SettingsPage";
+
+function ProtectedRoute({ children }: { children: React.ReactNode }) {
+  const { user, loading } = useAuth();
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center text-sm text-[#57534E] dark:text-[#9CA3AF]">
+        Loading your study space...
+      </div>
+    );
+  }
+  return user ? <>{children}</> : <Navigate to="/login" replace />;
+}
+
+function GuestOnlyRoute({ children }: { children: React.ReactNode }) {
+  const { user, loading } = useAuth();
+  if (loading) return null;
+  return user ? <Navigate to="/dashboard" replace /> : <>{children}</>;
+}
+
+function PlaceholderView({ title, desc }: { title: string; desc: string }) {
+  return (
+    <div className="rounded-xl border border-[#E7E5E4] dark:border-[#2A2E35] bg-white dark:bg-[#1A1D21] p-6">
+      <h1 className="text-xl font-semibold">{title}</h1>
+      <p className="text-sm text-[#57534E] dark:text-[#9CA3AF] mt-1">{desc}</p>
+    </div>
+  );
+}
 
 export default function App() {
-  const [dark, setDark] = useState(() =>
-    document.documentElement.classList.contains("dark")
-  );
-
-  const toggleTheme = () => {
-    const next = !dark;
-    document.documentElement.classList.toggle("dark", next);
-    localStorage.setItem("sabil-theme", next ? "dark" : "light");
-    setDark(next);
-  };
-
   return (
-    <div className="min-h-screen flex items-center justify-center p-6">
-      <div className="max-w-md w-full rounded-xl border border-[#E7E5E4] dark:border-[#2A2E35] bg-white dark:bg-[#1A1D21] p-6 space-y-5">
-        <div className="flex items-start justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-lg bg-[#F0FDFA] dark:bg-[#0F766E]/20 border border-[#CCFBF1] dark:border-[#115E59] flex items-center justify-center">
-              <BookOpen className="w-5 h-5 text-[#0F766E] dark:text-[#2DD4BF]" />
-            </div>
-            <div className="leading-tight">
-              <div className="font-arabic text-2xl font-bold text-[#0F766E] dark:text-[#2DD4BF]">
-                سَبِيل
-              </div>
-              <div className="text-xs font-semibold tracking-wider uppercase text-[#57534E] dark:text-[#9CA3AF]">
-                Sabil
-              </div>
-            </div>
-          </div>
+    <ThemeProvider>
+      <AuthProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<LandingPage />} />
+            <Route
+              path="/login"
+              element={
+                <GuestOnlyRoute>
+                  <LoginPage />
+                </GuestOnlyRoute>
+              }
+            />
+            <Route
+              path="/register"
+              element={
+                <GuestOnlyRoute>
+                  <RegisterPage />
+                </GuestOnlyRoute>
+              }
+            />
 
-          <button
-            onClick={toggleTheme}
-            className="p-2 rounded-lg border border-[#E7E5E4] dark:border-[#2A2E35] hover:bg-[#FAF8F5] dark:hover:bg-[#121417] transition-colors cursor-pointer"
-            aria-label="Toggle theme"
-          >
-            {dark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
-          </button>
-        </div>
+            <Route
+              element={
+                <ProtectedRoute>
+                  <AppShell />
+                </ProtectedRoute>
+              }
+            >
+              <Route
+                path="/dashboard"
+                element={
+                  <PlaceholderView
+                    title="Dashboard"
+                    desc="Module 5 will display your Categories, Progress Report, Notes, and Start Learning card here."
+                  />
+                }
+              />
+             <Route path="/settings" element={<SettingsPage />} />
+              <Route
+                path="/learn"
+                element={
+                  <PlaceholderView
+                    title="Learning Workspace"
+                    desc="Module 6 will render the PDF Reader, Audio Track List, and Ders Notes side-by-side here."
+                  />
+                }
+              />
+            </Route>
 
-        <p className="text-sm text-[#57534E] dark:text-[#9CA3AF]">
-          Module 0 complete. Warm Paper & Quiet Night Study themes are active.
-        </p>
-      </div>
-    </div>
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </BrowserRouter>
+      </AuthProvider>
+    </ThemeProvider>
   );
 }

@@ -6,6 +6,9 @@ import cookieParser from "cookie-parser";
 import { prisma, disconnectPrisma } from "./lib/prisma.js";
 import { ensureBucketExists } from "./lib/s3.js";
 import authRouter from "./routes/auth.js";
+import categoriesRouter from "./routes/categories.js";
+import kitabsRouter from "./routes/kitabs.js";
+import uploadsRouter from "./routes/uploads.js";
 
 const app = express();
 const PORT = Number(process.env.PORT) || 4000;
@@ -23,6 +26,9 @@ app.use(
 app.use(express.json({ limit: "1mb" }));
 app.use(cookieParser());
 app.use("/api/auth", authRouter);
+app.use("/api/categories", categoriesRouter);
+app.use("/api/kitabs", kitabsRouter);
+app.use("/api/uploads", uploadsRouter);
 
 app.get("/api/health", async (_req, res) => {
   try {
