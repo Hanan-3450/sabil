@@ -5,7 +5,8 @@ import { AppShell } from "./components/AppShell";
 import { LandingPage } from "./pages/LandingPage";
 import { LoginPage } from "./pages/LoginPage";
 import { RegisterPage } from "./pages/RegisterPage";
-import { SettingsPage } from "./pages/SettingsPage";
+import { SettingsPage } from "./pages/SettingsPage"
+import { DashboardPage } from "./pages/DashboardPage";
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth();
@@ -65,15 +66,7 @@ export default function App() {
                 </ProtectedRoute>
               }
             >
-              <Route
-                path="/dashboard"
-                element={
-                  <PlaceholderView
-                    title="Dashboard"
-                    desc="Module 5 will display your Categories, Progress Report, Notes, and Start Learning card here."
-                  />
-                }
-              />
+              <Route path="/dashboard" element={<DashboardPage />} />
              <Route path="/settings" element={<SettingsPage />} />
               <Route
                 path="/learn"

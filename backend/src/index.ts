@@ -9,6 +9,8 @@ import authRouter from "./routes/auth.js";
 import categoriesRouter from "./routes/categories.js";
 import kitabsRouter from "./routes/kitabs.js";
 import uploadsRouter from "./routes/uploads.js";
+import notesRouter from "./routes/notes.js";
+import dashboardRouter from "./routes/dashboard.js";
 
 const app = express();
 const PORT = Number(process.env.PORT) || 4000;
@@ -29,6 +31,8 @@ app.use("/api/auth", authRouter);
 app.use("/api/categories", categoriesRouter);
 app.use("/api/kitabs", kitabsRouter);
 app.use("/api/uploads", uploadsRouter);
+app.use("/api/notes", notesRouter);
+app.use("/api/dashboard", dashboardRouter);
 
 app.get("/api/health", async (_req, res) => {
   try {
