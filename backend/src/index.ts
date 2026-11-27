@@ -36,6 +36,11 @@ app.use("/api/notes", notesRouter);
 app.use("/api/learn", learnRouter);
 app.use("/api/dashboard", dashboardRouter);
 
+
+app.get("/", (_req, res) => {
+  res.status(200).json({ status: "ok", service: "sabil-api" });
+});
+
 app.get("/api/health", async (_req, res) => {
   try {
     await prisma.$queryRaw`SELECT 1`;
