@@ -5,8 +5,8 @@ import { AppShell } from "./components/AppShell";
 import { LandingPage } from "./pages/LandingPage";
 import { LoginPage } from "./pages/LoginPage";
 import { RegisterPage } from "./pages/RegisterPage";
-import { SettingsPage } from "./pages/SettingsPage"
 import { DashboardPage } from "./pages/DashboardPage";
+import { SettingsPage } from "./pages/SettingsPage";
 import { LearnPage } from "./pages/LearnPage";
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
@@ -25,15 +25,6 @@ function GuestOnlyRoute({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth();
   if (loading) return null;
   return user ? <Navigate to="/dashboard" replace /> : <>{children}</>;
-}
-
-function PlaceholderView({ title, desc }: { title: string; desc: string }) {
-  return (
-    <div className="rounded-xl border border-[#E7E5E4] dark:border-[#2A2E35] bg-white dark:bg-[#1A1D21] p-6">
-      <h1 className="text-xl font-semibold">{title}</h1>
-      <p className="text-sm text-[#57534E] dark:text-[#9CA3AF] mt-1">{desc}</p>
-    </div>
-  );
 }
 
 export default function App() {
@@ -68,7 +59,7 @@ export default function App() {
               }
             >
               <Route path="/dashboard" element={<DashboardPage />} />
-             <Route path="/settings" element={<SettingsPage />} />
+              <Route path="/settings" element={<SettingsPage />} />
               <Route path="/learn" element={<LearnPage />} />
             </Route>
 
