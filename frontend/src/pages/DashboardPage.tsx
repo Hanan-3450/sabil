@@ -74,7 +74,6 @@ export function DashboardPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  // Note filters
   const [filterCatId, setFilterCatId] = useState("");
   const [filterKitabId, setFilterKitabId] = useState("");
 
@@ -124,7 +123,7 @@ export function DashboardPage() {
   if (loading) {
     return (
       <div className="text-sm text-[#57534E] dark:text-[#9CA3AF]">
-        Loading your study dashboard...
+        Loading dashboard...
       </div>
     );
   }
@@ -143,45 +142,44 @@ export function DashboardPage() {
     <div className="space-y-8">
       {/* Greeting + Start Learning Card */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 items-stretch">
-        <div className="lg:col-span-2 rounded-xl border border-[#E7E5E4] dark:border-[#2A2E35] bg-white dark:bg-[#1A1D21] p-6 flex flex-col justify-between">
+        <div className="lg:col-span-2 rounded-2xl border border-[#E7E5E4] dark:border-[#2A2E35] bg-white dark:bg-[#1A1D21] p-6 flex flex-col justify-between">
           <div>
-            <p className="text-xs font-medium uppercase tracking-wider text-[#0F766E] dark:text-[#2DD4BF]">
-              Student Workspace
-            </p>
-            <h1 className="text-2xl font-semibold mt-1">
+            <span className="inline-block text-[11px] font-medium px-2.5 py-0.5 rounded-full bg-[#0227a1]/8 dark:bg-[#0227a1]/30 text-[#0227a1] dark:text-[#7C9BFF]">
+              Study Overview
+            </span>
+            <h1 className="text-2xl font-semibold mt-2">
               As-salamu alaykum, {user?.name}
             </h1>
-            <p className="text-sm text-[#57534E] dark:text-[#9CA3AF] mt-1.5">
-              Review your study progress across Islamic sciences, revisit saved notes, or open a Kitab to continue your ders.
-            </p>
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-5 mt-5 border-t border-[#E7E5E4] dark:border-[#2A2E35]">
-            <div>
-              <p className="text-xs text-[#57534E] dark:text-[#9CA3AF]">
+            <div className="rounded-lg bg-[#FAF8F5] dark:bg-[#121417] p-3 border border-[#E7E5E4] dark:border-[#2A2E35]">
+              <p className="text-[11px] text-[#57534E] dark:text-[#9CA3AF]">
                 Categories
               </p>
-              <p className="text-lg font-semibold">{stats.totalCategories}</p>
+              <p className="text-lg font-semibold mt-0.5">
+                {stats.totalCategories}
+              </p>
             </div>
-            <div>
-              <p className="text-xs text-[#57534E] dark:text-[#9CA3AF]">
+            <div className="rounded-lg bg-[#FAF8F5] dark:bg-[#121417] p-3 border border-[#E7E5E4] dark:border-[#2A2E35]">
+              <p className="text-[11px] text-[#57534E] dark:text-[#9CA3AF]">
                 Kitabs
               </p>
-              <p className="text-lg font-semibold">{stats.totalKitabs}</p>
+              <p className="text-lg font-semibold mt-0.5">{stats.totalKitabs}</p>
             </div>
-            <div>
-              <p className="text-xs text-[#57534E] dark:text-[#9CA3AF]">
+            <div className="rounded-lg bg-[#FAF8F5] dark:bg-[#121417] p-3 border border-[#E7E5E4] dark:border-[#2A2E35]">
+              <p className="text-[11px] text-[#57534E] dark:text-[#9CA3AF]">
                 Ders Finished
               </p>
-              <p className="text-lg font-semibold">
-                {stats.finishedTracks} / {stats.totalTracks}
+              <p className="text-lg font-semibold mt-0.5">
+                {stats.finishedTracks}/{stats.totalTracks}
               </p>
             </div>
-            <div>
-              <p className="text-xs text-[#57534E] dark:text-[#9CA3AF]">
-                Saved Notes
+            <div className="rounded-lg bg-[#FAF8F5] dark:bg-[#121417] p-3 border border-[#E7E5E4] dark:border-[#2A2E35]">
+              <p className="text-[11px] text-[#57534E] dark:text-[#9CA3AF]">
+                Notes
               </p>
-              <p className="text-lg font-semibold">{stats.totalNotes}</p>
+              <p className="text-lg font-semibold mt-0.5">{stats.totalNotes}</p>
             </div>
           </div>
         </div>
@@ -190,7 +188,7 @@ export function DashboardPage() {
         <button
           type="button"
           onClick={() => navigate("/learn")}
-          className="text-left rounded-xl border border-[#115E59]/30 dark:border-[#2DD4BF]/30 bg-[#0F766E] hover:bg-[#115E59] text-white p-6 flex flex-col justify-between transition-colors cursor-pointer group"
+          className="text-left rounded-2xl bg-[#0227a1] hover:bg-[#011d7a] text-white p-6 flex flex-col justify-between transition-colors cursor-pointer group"
         >
           <div className="flex items-center justify-between">
             <div className="w-10 h-10 rounded-lg bg-white/15 flex items-center justify-center">
@@ -201,61 +199,57 @@ export function DashboardPage() {
 
           <div className="mt-6">
             <h2 className="text-xl font-semibold">Start Learning</h2>
-            <p className="text-sm text-white/85 mt-1">
-              Select a category & Kitab to read the PDF, listen to audio tracks, and write ders notes.
+            <p className="text-xs text-white/85 mt-1.5 leading-relaxed">
+              Open a Kitab PDF, audio tracks, and ders notes.
             </p>
           </div>
         </button>
       </div>
 
-      {/* Student Progress Report */}
+      {/* Progress Report */}
       <section className="space-y-3">
         <div className="flex items-center justify-between">
-          <div>
-            <h2 className="text-lg font-semibold">Student Progress Report</h2>
-            <p className="text-xs text-[#57534E] dark:text-[#9CA3AF]">
-              Overall completion: {stats.completionPercent}% across all uploaded audio lessons
-            </p>
-          </div>
+          <h2 className="text-lg font-semibold">Progress Report</h2>
           {kitabProgress.length === 0 && (
             <Link
               to="/settings"
-              className="inline-flex items-center gap-1.5 text-xs font-medium text-[#0F766E] dark:text-[#2DD4BF] hover:underline"
+              className="inline-flex items-center gap-1.5 text-xs font-medium text-[#0227a1] dark:text-[#7C9BFF] hover:underline"
             >
               <Settings className="w-3.5 h-3.5" />
-              <span>Upload your first Kitab</span>
+              <span>Add Kitab in Settings</span>
             </Link>
           )}
         </div>
 
-        {/* Overall Progress Bar */}
-        <div className="rounded-xl border border-[#E7E5E4] dark:border-[#2A2E35] bg-white dark:bg-[#1A1D21] p-4 space-y-3">
-          <div className="flex items-center justify-between text-sm">
-            <span className="font-medium">Overall Ders Progress</span>
-            <span className="text-[#0F766E] dark:text-[#2DD4BF] font-semibold">
-              {stats.completionPercent}%
-            </span>
-          </div>
-          <div className="h-2 rounded-full bg-[#FAF8F5] dark:bg-[#121417] border border-[#E7E5E4] dark:border-[#2A2E35] overflow-hidden">
-            <div
-              className="h-full bg-[#0F766E] dark:bg-[#2DD4BF] transition-all duration-300"
-              style={{ width: `${stats.completionPercent}%` }}
-            />
+        <div className="rounded-2xl border border-[#E7E5E4] dark:border-[#2A2E35] bg-white dark:bg-[#1A1D21] p-5 space-y-4">
+          <div className="space-y-2">
+            <div className="flex items-center justify-between text-sm">
+              <span className="font-medium">Overall Completion</span>
+              <span className="text-[#0227a1] dark:text-[#7C9BFF] font-semibold">
+                {stats.completionPercent}%
+              </span>
+            </div>
+            <div className="h-2 rounded-full bg-[#FAF8F5] dark:bg-[#121417] border border-[#E7E5E4] dark:border-[#2A2E35] overflow-hidden">
+              <div
+                className="h-full bg-[#0227a1] dark:bg-[#7C9BFF] transition-all duration-300"
+                style={{ width: `${stats.completionPercent}%` }}
+              />
+            </div>
           </div>
 
           {kitabProgress.length === 0 ? (
-            <p className="text-xs text-[#57534E] dark:text-[#9CA3AF] pt-1">
-              You haven’t added any Kitabs yet. Go to{" "}
+            <p className="text-xs text-[#57534E] dark:text-[#9CA3AF]">
+              No Kitabs added yet. Visit{" "}
               <Link
                 to="/settings"
-                className="text-[#0F766E] dark:text-[#2DD4BF] font-medium hover:underline"
+                className="text-[#0227a1] dark:text-[#7C9BFF] font-medium hover:underline"
               >
                 Settings
               </Link>{" "}
-              to create a Kitab and upload its PDF and audio tracks.
+              to upload your first PDF and audio tracks.
             </p>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 pt-2">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 pt-1">
               {kitabProgress.map((k) => {
                 const pct =
                   k.totalTracks > 0
@@ -265,25 +259,25 @@ export function DashboardPage() {
                   <Link
                     key={k.id}
                     to={`/learn?categoryId=${k.categoryId}&kitabId=${k.id}`}
-                    className="rounded-lg border border-[#E7E5E4] dark:border-[#2A2E35] bg-[#FAF8F5] dark:bg-[#121417] p-3.5 hover:border-[#0F766E] dark:hover:border-[#2DD4BF] transition-colors space-y-2"
+                    className="rounded-xl border border-[#E7E5E4] dark:border-[#2A2E35] bg-[#FAF8F5] dark:bg-[#121417] p-4 hover:border-[#0227a1] dark:hover:border-[#7C9BFF] transition-colors space-y-2.5"
                   >
                     <div className="flex items-start justify-between gap-2">
                       <div className="min-w-0">
-                        <span className="text-[11px] font-medium text-[#0F766E] dark:text-[#2DD4BF]">
+                        <span className="text-[11px] font-medium text-[#0227a1] dark:text-[#7C9BFF]">
                           {k.categoryName}
                         </span>
-                        <h3 className="font-medium text-sm truncate">
+                        <h3 className="font-semibold text-sm truncate mt-0.5">
                           {k.title}
                         </h3>
                       </div>
                       <span className="text-xs font-medium text-[#57534E] dark:text-[#9CA3AF] shrink-0">
-                        {k.finishedTracks}/{k.totalTracks} tracks
+                        {k.finishedTracks}/{k.totalTracks}
                       </span>
                     </div>
 
                     <div className="h-1.5 rounded-full bg-[#E7E5E4] dark:bg-[#2A2E35] overflow-hidden">
                       <div
-                        className="h-full bg-[#0F766E] dark:bg-[#2DD4BF]"
+                        className="h-full bg-[#0227a1] dark:bg-[#7C9BFF]"
                         style={{ width: `${pct}%` }}
                       />
                     </div>
@@ -292,16 +286,13 @@ export function DashboardPage() {
                       <span className="inline-flex items-center gap-1">
                         {k.bookmarkPage ? (
                           <>
-                            <Bookmark className="w-3 h-3 text-[#0F766E] dark:text-[#2DD4BF]" />
-                            <span>
-                              Stopped at Page {k.bookmarkPage}
-                              {k.bookmarkLabel ? ` (${k.bookmarkLabel})` : ""}
-                            </span>
+                            <Bookmark className="w-3 h-3 text-[#0227a1] dark:text-[#7C9BFF]" />
+                            <span>Page {k.bookmarkPage}</span>
                           </>
                         ) : (
                           <>
                             <BookOpen className="w-3 h-3" />
-                            <span>{k.hasPdf ? "PDF ready" : "No PDF yet"}</span>
+                            <span>{k.hasPdf ? "PDF ready" : "No PDF"}</span>
                           </>
                         )}
                       </span>
@@ -315,15 +306,15 @@ export function DashboardPage() {
         </div>
       </section>
 
-      {/* Current Ders Categories Cards */}
+      {/* Ders Categories */}
       <section className="space-y-3">
         <div className="flex items-center justify-between">
-          <h2 className="text-lg font-semibold">Current Ders Categories</h2>
+          <h2 className="text-lg font-semibold">Ders Categories</h2>
           <Link
             to="/settings"
-            className="text-xs font-medium text-[#0F766E] dark:text-[#2DD4BF] hover:underline"
+            className="text-xs font-medium text-[#0227a1] dark:text-[#7C9BFF] hover:underline"
           >
-            Manage categories →
+            Manage →
           </Link>
         </div>
 
@@ -332,27 +323,27 @@ export function DashboardPage() {
             <Link
               key={cat.id}
               to={`/learn?categoryId=${cat.id}`}
-              className="rounded-xl border border-[#E7E5E4] dark:border-[#2A2E35] bg-white dark:bg-[#1A1D21] p-4 hover:border-[#0F766E] dark:hover:border-[#2DD4BF] transition-colors flex flex-col justify-between space-y-3"
+              className="rounded-xl border border-[#E7E5E4] dark:border-[#2A2E35] bg-white dark:bg-[#1A1D21] p-4 hover:border-[#0227a1] dark:hover:border-[#7C9BFF] transition-colors flex flex-col justify-between space-y-3"
             >
-              <div className="space-y-1.5">
+              <div className="space-y-1">
                 <div className="flex items-baseline justify-between gap-2">
                   <h3 className="font-semibold text-base">{cat.name}</h3>
                   {cat.arabicName && (
-                    <span className="font-arabic text-lg text-[#0F766E] dark:text-[#2DD4BF]">
+                    <span className="font-arabic text-lg text-[#0227a1] dark:text-[#7C9BFF]">
                       {cat.arabicName}
                     </span>
                   )}
                 </div>
                 <p className="text-xs text-[#57534E] dark:text-[#9CA3AF] leading-relaxed">
-                  {cat.description || "Custom study category"}
+                  {cat.description || "Custom category"}
                 </p>
               </div>
 
               <div className="pt-2.5 border-t border-[#E7E5E4] dark:border-[#2A2E35] flex items-center justify-between text-xs text-[#57534E] dark:text-[#9CA3AF]">
                 <span>{cat.kitabCount} Kitab(s)</span>
                 <span className="inline-flex items-center gap-1">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-[#0F766E] dark:text-[#2DD4BF]" />
-                  {cat.finishedTracks}/{cat.totalTracks} ders
+                  <CheckCircle2 className="w-3.5 h-3.5 text-[#0227a1] dark:text-[#7C9BFF]" />
+                  {cat.finishedTracks}/{cat.totalTracks}
                 </span>
               </div>
             </Link>
@@ -360,12 +351,12 @@ export function DashboardPage() {
         </div>
       </section>
 
-      {/* Study Notes Taken (Identifiable by Category & Kitab) */}
+      {/* Saved Ders Notes */}
       <section className="space-y-3">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div className="flex items-center gap-2">
-            <NotebookPen className="w-5 h-5 text-[#0F766E] dark:text-[#2DD4BF]" />
-            <h2 className="text-lg font-semibold">Saved Ders Notes</h2>
+            <NotebookPen className="w-5 h-5 text-[#0227a1] dark:text-[#7C9BFF]" />
+            <h2 className="text-lg font-semibold">Saved Notes</h2>
           </div>
 
           <div className="flex flex-wrap gap-2">
@@ -403,8 +394,8 @@ export function DashboardPage() {
         </div>
 
         {filteredNotes.length === 0 ? (
-          <div className="rounded-xl border border-dashed border-[#E7E5E4] dark:border-[#2A2E35] p-6 text-center text-sm text-[#57534E] dark:text-[#9CA3AF]">
-            No notes saved yet for this filter. Notes you write while studying a Kitab will appear here, organized by Category and Kitab.
+          <div className="rounded-xl border border-dashed border-[#E7E5E4] dark:border-[#2A2E35] bg-white dark:bg-[#1A1D21] p-6 text-center text-xs text-[#57534E] dark:text-[#9CA3AF]">
+            No saved notes yet. Notes written in the Learning Workspace appear here by Category and Kitab.
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -415,15 +406,13 @@ export function DashboardPage() {
               >
                 <div className="flex items-start justify-between gap-2">
                   <div className="flex flex-wrap items-center gap-1.5 text-[11px]">
-                    <span className="px-2 py-0.5 rounded bg-[#F0FDFA] dark:bg-[#0F766E]/20 text-[#0F766E] dark:text-[#2DD4BF] font-medium">
+                    <span className="px-2 py-0.5 rounded bg-[#0227a1]/8 dark:bg-[#0227a1]/30 text-[#0227a1] dark:text-[#7C9BFF] font-medium">
                       {note.category.name}
                     </span>
                     <span className="px-2 py-0.5 rounded bg-[#FAF8F5] dark:bg-[#121417] border border-[#E7E5E4] dark:border-[#2A2E35] font-medium">
                       {note.kitab.title}
                     </span>
-                    <span className="font-semibold text-[#1C1917] dark:text-[#ECEAE4]">
-                      • {note.dersTitle}
-                    </span>
+                    <span className="font-semibold">• {note.dersTitle}</span>
                   </div>
 
                   <button
@@ -435,19 +424,17 @@ export function DashboardPage() {
                   </button>
                 </div>
 
-                <p className="text-sm text-[#1C1917] dark:text-[#ECEAE4] whitespace-pre-wrap leading-relaxed">
+                <p className="text-xs text-[#1C1917] dark:text-[#ECEAE4] whitespace-pre-wrap leading-relaxed">
                   {note.content}
                 </p>
 
                 <div className="flex items-center justify-between pt-1 text-[11px] text-[#57534E] dark:text-[#9CA3AF]">
-                  <span>
-                    Updated {new Date(note.updatedAt).toLocaleDateString()}
-                  </span>
+                  <span>{new Date(note.updatedAt).toLocaleDateString()}</span>
                   <Link
                     to={`/learn?categoryId=${note.categoryId}&kitabId=${note.kitabId}`}
-                    className="text-[#0F766E] dark:text-[#2DD4BF] hover:underline"
+                    className="text-[#0227a1] dark:text-[#7C9BFF] hover:underline"
                   >
-                    Open in workspace →
+                    Open Kitab →
                   </Link>
                 </div>
               </div>

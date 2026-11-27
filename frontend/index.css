@@ -1,12 +1,18 @@
 @import "tailwindcss";
 @custom-variant dark (&:where(.dark, .dark *));
 
+@theme {
+  --font-sans: "Roboto Serif", Georgia, Cambria, "Times New Roman", serif;
+  --font-arabic: "Amiri", "Noto Naskh Arabic", serif;
+}
+
 @layer base {
+  html,
   body {
-    font-family: "Inter", system-ui, -apple-system, sans-serif;
+    font-family: var(--font-sans);
   }
 
   .font-arabic {
-    font-family: "Amiri", "Noto Naskh Arabic", serif;
+    font-family: var(--font-arabic);
   }
 }

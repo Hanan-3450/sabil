@@ -7,6 +7,7 @@ import { LoginPage } from "./pages/LoginPage";
 import { RegisterPage } from "./pages/RegisterPage";
 import { SettingsPage } from "./pages/SettingsPage"
 import { DashboardPage } from "./pages/DashboardPage";
+import { LearnPage } from "./pages/LearnPage";
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth();
@@ -68,15 +69,7 @@ export default function App() {
             >
               <Route path="/dashboard" element={<DashboardPage />} />
              <Route path="/settings" element={<SettingsPage />} />
-              <Route
-                path="/learn"
-                element={
-                  <PlaceholderView
-                    title="Learning Workspace"
-                    desc="Module 6 will render the PDF Reader, Audio Track List, and Ders Notes side-by-side here."
-                  />
-                }
-              />
+              <Route path="/learn" element={<LearnPage />} />
             </Route>
 
             <Route path="*" element={<Navigate to="/" replace />} />

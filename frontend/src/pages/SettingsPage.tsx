@@ -82,7 +82,7 @@ export function SettingsPage() {
   const [kitabDesc, setKitabDesc] = useState("");
   const [creatingKitab, setCreatingKitab] = useState(false);
 
-  // Upload states keyed by kitabId
+  // Upload states
   const [pdfProgress, setPdfProgress] = useState<Record<string, number>>({});
   const [audioUploadState, setAudioUploadState] = useState<{
     kitabId: string;
@@ -249,9 +249,7 @@ export function SettingsPage() {
       setKitabTitle("");
       setKitabAuthor("");
       setKitabDesc("");
-      setNotice(
-        `Kitab "${kitab.title}" added! You can now upload its PDF and audio tracks below.`
-      );
+      setNotice(`Kitab "${kitab.title}" added.`);
     } catch (err) {
       setError(err instanceof ApiError ? err.message : "Failed to create kitab");
     } finally {
@@ -381,7 +379,7 @@ export function SettingsPage() {
         )
       );
       setNotice(
-        `Uploaded ${addedTracks.length} audio track(s) to "${kitab.title}".`
+        `Uploaded ${addedTracks.length} track(s) to "${kitab.title}".`
       );
     } catch (err) {
       setError(err instanceof Error ? err.message : "Audio upload failed");
@@ -415,7 +413,7 @@ export function SettingsPage() {
   const handleDeleteKitab = async (kitab: Kitab) => {
     if (
       !window.confirm(
-        `Delete Kitab "${kitab.title}" and all its PDF/audio files and notes?`
+        `Delete Kitab "${kitab.title}" and all its files and notes?`
       )
     ) {
       return;
@@ -432,7 +430,7 @@ export function SettingsPage() {
   if (loading) {
     return (
       <div className="text-sm text-[#57534E] dark:text-[#9CA3AF]">
-        Loading your library settings...
+        Loading settings...
       </div>
     );
   }
@@ -440,25 +438,25 @@ export function SettingsPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-semibold">Settings & Study Library</h1>
-        <p className="text-sm text-[#57534E] dark:text-[#9CA3AF] mt-1">
-          Organize your Ders categories, add Kitabs, and upload PDFs & audio tracks.
+        <h1 className="text-2xl font-semibold">Settings & Library</h1>
+        <p className="text-xs text-[#57534E] dark:text-[#9CA3AF] mt-1">
+          Manage categories, create Kitabs, and upload PDFs & audio tracks.
         </p>
       </div>
 
       {/* Tabs */}
       <div className="flex flex-wrap gap-2 border-b border-[#E7E5E4] dark:border-[#2A2E35] pb-3">
         {[
-          { id: "kitabs", label: `Kitabs & Uploads (${kitabs.length})` },
-          { id: "categories", label: `Ders Categories (${categories.length})` },
-          { id: "account", label: "Account & Theme" },
+          { id: "kitabs", label: `Kitabs (${kitabs.length})` },
+          { id: "categories", label: `Categories (${categories.length})` },
+          { id: "account", label: "Account" },
         ].map((t) => (
           <button
             key={t.id}
             onClick={() => setTab(t.id as typeof tab)}
-            className={`px-3.5 py-2 rounded-lg text-sm font-medium transition-colors cursor-pointer ${
+            className={`px-3.5 py-2 rounded-lg text-xs sm:text-sm font-medium transition-colors cursor-pointer ${
               tab === t.id
-                ? "bg-[#0F766E] text-white"
+                ? "bg-[#0227a1] text-white"
                 : "bg-white dark:bg-[#1A1D21] border border-[#E7E5E4] dark:border-[#2A2E35] text-[#57534E] dark:text-[#9CA3AF] hover:text-[#1C1917] dark:hover:text-[#ECEAE4]"
             }`}
           >
@@ -468,13 +466,13 @@ export function SettingsPage() {
       </div>
 
       {error && (
-        <div className="p-3.5 rounded-lg border border-red-200 dark:border-red-900/50 bg-red-50 dark:bg-red-950/30 text-sm text-red-700 dark:text-red-300">
+        <div className="p-3.5 rounded-lg border border-red-200 dark:border-red-900/50 bg-red-50 dark:bg-red-950/30 text-xs text-red-700 dark:text-red-300">
           {error}
         </div>
       )}
 
       {notice && (
-        <div className="p-3.5 rounded-lg border border-[#CCFBF1] dark:border-[#115E59] bg-[#F0FDFA] dark:bg-[#0F766E]/20 text-sm text-[#0F766E] dark:text-[#2DD4BF] flex items-center gap-2">
+        <div className="p-3.5 rounded-lg border border-[#0227a1]/20 dark:border-[#7C9BFF]/30 bg-[#0227a1]/8 dark:bg-[#0227a1]/25 text-xs text-[#0227a1] dark:text-[#7C9BFF] flex items-center gap-2">
           <CheckCircle2 className="w-4 h-4 shrink-0" />
           <span>{notice}</span>
         </div>
@@ -483,14 +481,13 @@ export function SettingsPage() {
       {/* TAB 1: KITABS & UPLOADS */}
       {tab === "kitabs" && (
         <div className="space-y-6">
-          {/* Create Kitab Card */}
           <form
             onSubmit={handleCreateKitab}
-            className="rounded-xl border border-[#E7E5E4] dark:border-[#2A2E35] bg-white dark:bg-[#1A1D21] p-5 space-y-4"
+            className="rounded-2xl border border-[#E7E5E4] dark:border-[#2A2E35] bg-white dark:bg-[#1A1D21] p-5 space-y-4"
           >
             <div className="flex items-center gap-2">
-              <BookPlus className="w-5 h-5 text-[#0F766E] dark:text-[#2DD4BF]" />
-              <h2 className="font-semibold">Add New Kitab</h2>
+              <BookPlus className="w-4 h-4 text-[#0227a1] dark:text-[#7C9BFF]" />
+              <h2 className="font-semibold text-sm">Add New Kitab</h2>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
@@ -521,20 +518,20 @@ export function SettingsPage() {
                   required
                   value={kitabTitle}
                   onChange={(e) => setKitabTitle(e.target.value)}
-                  placeholder="e.g. Riyad al-Salihin"
+                  placeholder="Riyad al-Salihin"
                   className="w-full px-3 py-2 rounded-lg border border-[#E7E5E4] dark:border-[#2A2E35] bg-[#FAF8F5] dark:bg-[#121417] text-sm"
                 />
               </div>
 
               <div>
                 <label className="block text-xs font-medium text-[#57534E] dark:text-[#9CA3AF] mb-1">
-                  Author / Teacher (optional)
+                  Author (optional)
                 </label>
                 <input
                   type="text"
                   value={kitabAuthor}
                   onChange={(e) => setKitabAuthor(e.target.value)}
-                  placeholder="e.g. Imam al-Nawawi"
+                  placeholder="Imam al-Nawawi"
                   className="w-full px-3 py-2 rounded-lg border border-[#E7E5E4] dark:border-[#2A2E35] bg-[#FAF8F5] dark:bg-[#121417] text-sm"
                 />
               </div>
@@ -543,20 +540,20 @@ export function SettingsPage() {
             <div className="flex flex-col sm:flex-row gap-3 items-stretch sm:items-end">
               <div className="flex-1">
                 <label className="block text-xs font-medium text-[#57534E] dark:text-[#9CA3AF] mb-1">
-                  Short Description (optional)
+                  Description (optional)
                 </label>
                 <input
                   type="text"
                   value={kitabDesc}
                   onChange={(e) => setKitabDesc(e.target.value)}
-                  placeholder="Brief note about this kitab or lecture series"
+                  placeholder="Short note"
                   className="w-full px-3 py-2 rounded-lg border border-[#E7E5E4] dark:border-[#2A2E35] bg-[#FAF8F5] dark:bg-[#121417] text-sm"
                 />
               </div>
               <button
                 type="submit"
                 disabled={creatingKitab || categories.length === 0}
-                className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-[#0F766E] hover:bg-[#115E59] disabled:opacity-60 text-white text-sm font-medium cursor-pointer shrink-0"
+                className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-[#0227a1] hover:bg-[#011d7a] disabled:opacity-60 text-white text-sm font-medium cursor-pointer shrink-0"
               >
                 <Plus className="w-4 h-4" />
                 <span>{creatingKitab ? "Creating..." : "Create Kitab"}</span>
@@ -564,10 +561,9 @@ export function SettingsPage() {
             </div>
           </form>
 
-          {/* Kitab List + Uploads */}
           {kitabs.length === 0 ? (
-            <div className="rounded-xl border border-dashed border-[#E7E5E4] dark:border-[#2A2E35] p-8 text-center text-sm text-[#57534E] dark:text-[#9CA3AF]">
-              No Kitabs yet. Create your first Kitab above, then upload its PDF and audio tracks.
+            <div className="rounded-xl border border-dashed border-[#E7E5E4] dark:border-[#2A2E35] bg-white dark:bg-[#1A1D21] p-8 text-center text-xs text-[#57534E] dark:text-[#9CA3AF]">
+              No Kitabs yet. Create one above to upload its PDF and audio tracks.
             </div>
           ) : (
             <div className="space-y-4">
@@ -579,7 +575,7 @@ export function SettingsPage() {
                 return (
                   <div
                     key={kitab.id}
-                    className="rounded-xl border border-[#E7E5E4] dark:border-[#2A2E35] bg-white dark:bg-[#1A1D21] p-5 space-y-4"
+                    className="rounded-2xl border border-[#E7E5E4] dark:border-[#2A2E35] bg-white dark:bg-[#1A1D21] p-5 space-y-4"
                   >
                     {editingKitabId === kitab.id ? (
                       <form
@@ -611,7 +607,7 @@ export function SettingsPage() {
                             type="text"
                             value={editKitabAuthor}
                             onChange={(e) => setEditKitabAuthor(e.target.value)}
-                            placeholder="Author (optional)"
+                            placeholder="Author"
                             className="px-3 py-1.5 rounded-lg border border-[#E7E5E4] dark:border-[#2A2E35] bg-[#FAF8F5] dark:bg-[#121417] text-sm"
                           />
                         </div>
@@ -619,13 +615,13 @@ export function SettingsPage() {
                           type="text"
                           value={editKitabDesc}
                           onChange={(e) => setEditKitabDesc(e.target.value)}
-                          placeholder="Description (optional)"
+                          placeholder="Description"
                           className="w-full px-3 py-1.5 rounded-lg border border-[#E7E5E4] dark:border-[#2A2E35] bg-[#FAF8F5] dark:bg-[#121417] text-sm"
                         />
                         <div className="flex gap-2">
                           <button
                             type="submit"
-                            className="px-3 py-1.5 rounded-lg bg-[#0F766E] hover:bg-[#115E59] text-white text-xs font-medium cursor-pointer"
+                            className="px-3 py-1.5 rounded-lg bg-[#0227a1] hover:bg-[#011d7a] text-white text-xs font-medium cursor-pointer"
                           >
                             Save changes
                           </button>
@@ -641,7 +637,7 @@ export function SettingsPage() {
                     ) : (
                       <div className="flex items-start justify-between gap-4">
                         <div>
-                          <span className="inline-block text-xs font-medium px-2.5 py-0.5 rounded-md bg-[#F0FDFA] dark:bg-[#0F766E]/20 text-[#0F766E] dark:text-[#2DD4BF] border border-[#CCFBF1] dark:border-[#115E59]">
+                          <span className="inline-block text-[11px] font-medium px-2.5 py-0.5 rounded-md bg-[#0227a1]/8 dark:bg-[#0227a1]/30 text-[#0227a1] dark:text-[#7C9BFF] border border-[#0227a1]/15 dark:border-[#7C9BFF]/25">
                             {kitab.category.name}
                           </span>
                           <h3 className="text-lg font-semibold mt-1.5">
@@ -662,7 +658,7 @@ export function SettingsPage() {
                         <div className="flex items-center gap-1 shrink-0">
                           <button
                             onClick={() => startEditKitab(kitab)}
-                            className="p-2 rounded-lg text-[#57534E] dark:text-[#9CA3AF] hover:text-[#0F766E] dark:hover:text-[#2DD4BF] hover:bg-[#FAF8F5] dark:hover:bg-[#121417] cursor-pointer"
+                            className="p-2 rounded-lg text-[#57534E] dark:text-[#9CA3AF] hover:text-[#0227a1] dark:hover:text-[#7C9BFF] hover:bg-[#FAF8F5] dark:hover:bg-[#121417] cursor-pointer"
                             title="Edit Kitab"
                           >
                             <Pencil className="w-4 h-4" />
@@ -678,18 +674,17 @@ export function SettingsPage() {
                       </div>
                     )}
 
-                    {/* PDF & Audio Upload Controls */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2 border-t border-[#E7E5E4] dark:border-[#2A2E35]">
-                      {/* PDF Box */}
-                      <div className="rounded-lg border border-[#E7E5E4] dark:border-[#2A2E35] bg-[#FAF8F5] dark:bg-[#121417] p-3.5 space-y-2.5">
+                    {/* PDF & Audio Upload Boxes */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-3 border-t border-[#E7E5E4] dark:border-[#2A2E35]">
+                      <div className="rounded-xl border border-[#E7E5E4] dark:border-[#2A2E35] bg-[#FAF8F5] dark:bg-[#121417] p-3.5 space-y-2.5">
                         <div className="flex items-center justify-between">
-                          <div className="flex items-center gap-2 text-sm font-medium">
-                            <FileText className="w-4 h-4 text-[#0F766E] dark:text-[#2DD4BF]" />
+                          <div className="flex items-center gap-2 text-xs font-medium">
+                            <FileText className="w-4 h-4 text-[#0227a1] dark:text-[#7C9BFF]" />
                             <span>Kitab PDF</span>
                           </div>
-                          <label className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-white dark:bg-[#1A1D21] border border-[#E7E5E4] dark:border-[#2A2E35] text-xs font-medium hover:border-[#0F766E] cursor-pointer">
+                          <label className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-white dark:bg-[#1A1D21] border border-[#E7E5E4] dark:border-[#2A2E35] text-xs font-medium hover:border-[#0227a1] cursor-pointer">
                             <Upload className="w-3.5 h-3.5" />
-                            <span>{kitab.pdfKey ? "Replace PDF" : "Upload PDF"}</span>
+                            <span>{kitab.pdfKey ? "Replace" : "Upload PDF"}</span>
                             <input
                               type="file"
                               accept="application/pdf"
@@ -706,12 +701,12 @@ export function SettingsPage() {
                         {pdfPct !== undefined ? (
                           <div className="space-y-1">
                             <div className="flex justify-between text-xs text-[#57534E] dark:text-[#9CA3AF]">
-                              <span>Uploading PDF...</span>
+                              <span>Uploading...</span>
                               <span>{pdfPct}%</span>
                             </div>
                             <div className="h-1.5 rounded-full bg-[#E7E5E4] dark:bg-[#2A2E35] overflow-hidden">
                               <div
-                                className="h-full bg-[#0F766E] dark:bg-[#2DD4BF] transition-all"
+                                className="h-full bg-[#0227a1] dark:bg-[#7C9BFF] transition-all"
                                 style={{ width: `${pdfPct}%` }}
                               />
                             </div>
@@ -722,21 +717,20 @@ export function SettingsPage() {
                           </p>
                         ) : (
                           <p className="text-xs text-[#57534E] dark:text-[#9CA3AF]">
-                            No PDF uploaded yet.
+                            No PDF uploaded
                           </p>
                         )}
                       </div>
 
-                      {/* Audio Box */}
-                      <div className="rounded-lg border border-[#E7E5E4] dark:border-[#2A2E35] bg-[#FAF8F5] dark:bg-[#121417] p-3.5 space-y-2.5">
+                      <div className="rounded-xl border border-[#E7E5E4] dark:border-[#2A2E35] bg-[#FAF8F5] dark:bg-[#121417] p-3.5 space-y-2.5">
                         <div className="flex items-center justify-between">
-                          <div className="flex items-center gap-2 text-sm font-medium">
-                            <Music className="w-4 h-4 text-[#0F766E] dark:text-[#2DD4BF]" />
-                            <span>Audio Tracks ({kitab.audioTracks.length})</span>
+                          <div className="flex items-center gap-2 text-xs font-medium">
+                            <Music className="w-4 h-4 text-[#0227a1] dark:text-[#7C9BFF]" />
+                            <span>Audio ({kitab.audioTracks.length})</span>
                           </div>
-                          <label className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-white dark:bg-[#1A1D21] border border-[#E7E5E4] dark:border-[#2A2E35] text-xs font-medium hover:border-[#0F766E] cursor-pointer">
+                          <label className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-white dark:bg-[#1A1D21] border border-[#E7E5E4] dark:border-[#2A2E35] text-xs font-medium hover:border-[#0227a1] cursor-pointer">
                             <Upload className="w-3.5 h-3.5" />
-                            <span>Add Audio(s)</span>
+                            <span>Add Audio</span>
                             <input
                               type="file"
                               accept="audio/*"
@@ -763,20 +757,19 @@ export function SettingsPage() {
                             </div>
                             <div className="h-1.5 rounded-full bg-[#E7E5E4] dark:bg-[#2A2E35] overflow-hidden">
                               <div
-                                className="h-full bg-[#0F766E] dark:bg-[#2DD4BF] transition-all"
+                                className="h-full bg-[#0227a1] dark:bg-[#7C9BFF] transition-all"
                                 style={{ width: `${audioUploadState.percent}%` }}
                               />
                             </div>
                           </div>
                         ) : (
                           <p className="text-xs text-[#57534E] dark:text-[#9CA3AF]">
-                            Select one or multiple audio lessons at once.
+                            Select one or multiple files
                           </p>
                         )}
                       </div>
                     </div>
 
-                    {/* Uploaded Tracks Preview List */}
                     {kitab.audioTracks.length > 0 && (
                       <div className="space-y-1.5 max-h-48 overflow-y-auto pr-1">
                         {kitab.audioTracks.map((track) => (
@@ -785,7 +778,7 @@ export function SettingsPage() {
                             className="flex items-center justify-between px-3 py-1.5 rounded-lg bg-[#FAF8F5] dark:bg-[#121417] text-xs"
                           >
                             <div className="flex items-center gap-2 min-w-0">
-                              <span className="font-semibold text-[#0F766E] dark:text-[#2DD4BF] shrink-0">
+                              <span className="font-semibold text-[#0227a1] dark:text-[#7C9BFF] shrink-0">
                                 #{track.trackNumber}
                               </span>
                               <span className="truncate">{track.title}</span>
@@ -817,11 +810,11 @@ export function SettingsPage() {
         <div className="space-y-6">
           <form
             onSubmit={handleCreateCategory}
-            className="rounded-xl border border-[#E7E5E4] dark:border-[#2A2E35] bg-white dark:bg-[#1A1D21] p-5 space-y-4"
+            className="rounded-2xl border border-[#E7E5E4] dark:border-[#2A2E35] bg-white dark:bg-[#1A1D21] p-5 space-y-4"
           >
             <div className="flex items-center gap-2">
-              <FolderPlus className="w-5 h-5 text-[#0F766E] dark:text-[#2DD4BF]" />
-              <h2 className="font-semibold">Create Custom Ders Category</h2>
+              <FolderPlus className="w-4 h-4 text-[#0227a1] dark:text-[#7C9BFF]" />
+              <h2 className="font-semibold text-sm">New Category</h2>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -834,7 +827,7 @@ export function SettingsPage() {
                   required
                   value={catName}
                   onChange={(e) => setCatName(e.target.value)}
-                  placeholder="e.g. Tafsir, Nahw, Usul al-Fiqh"
+                  placeholder="Tafsir, Nahw, Usul al-Fiqh"
                   className="w-full px-3 py-2 rounded-lg border border-[#E7E5E4] dark:border-[#2A2E35] bg-[#FAF8F5] dark:bg-[#121417] text-sm"
                 />
               </div>
@@ -846,7 +839,7 @@ export function SettingsPage() {
                   type="text"
                   value={catArabic}
                   onChange={(e) => setCatArabic(e.target.value)}
-                  placeholder="e.g. التفسير"
+                  placeholder="التفسير"
                   className="w-full px-3 py-2 rounded-lg border border-[#E7E5E4] dark:border-[#2A2E35] bg-[#FAF8F5] dark:bg-[#121417] text-sm"
                 />
               </div>
@@ -861,14 +854,14 @@ export function SettingsPage() {
                   type="text"
                   value={catDesc}
                   onChange={(e) => setCatDesc(e.target.value)}
-                  placeholder="What does this study category cover?"
+                  placeholder="Short description"
                   className="w-full px-3 py-2 rounded-lg border border-[#E7E5E4] dark:border-[#2A2E35] bg-[#FAF8F5] dark:bg-[#121417] text-sm"
                 />
               </div>
               <button
                 type="submit"
                 disabled={creatingCat}
-                className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-[#0F766E] hover:bg-[#115E59] disabled:opacity-60 text-white text-sm font-medium cursor-pointer shrink-0"
+                className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-[#0227a1] hover:bg-[#011d7a] disabled:opacity-60 text-white text-sm font-medium cursor-pointer shrink-0"
               >
                 <Plus className="w-4 h-4" />
                 <span>{creatingCat ? "Adding..." : "Add Category"}</span>
@@ -914,7 +907,7 @@ export function SettingsPage() {
                     <div className="flex gap-2">
                       <button
                         type="submit"
-                        className="px-3 py-1 rounded-lg bg-[#0F766E] hover:bg-[#115E59] text-white text-xs font-medium cursor-pointer"
+                        className="px-3 py-1 rounded-lg bg-[#0227a1] hover:bg-[#011d7a] text-white text-xs font-medium cursor-pointer"
                       >
                         Save
                       </button>
@@ -933,7 +926,7 @@ export function SettingsPage() {
                       <div className="flex items-baseline gap-2">
                         <h3 className="font-semibold text-sm">{cat.name}</h3>
                         {cat.arabicName && (
-                          <span className="font-arabic text-base text-[#0F766E] dark:text-[#2DD4BF]">
+                          <span className="font-arabic text-base text-[#0227a1] dark:text-[#7C9BFF]">
                             {cat.arabicName}
                           </span>
                         )}
@@ -949,7 +942,7 @@ export function SettingsPage() {
                     <div className="flex items-center gap-1 shrink-0">
                       <button
                         onClick={() => startEditCategory(cat)}
-                        className="p-1.5 text-[#57534E] hover:text-[#0F766E] dark:hover:text-[#2DD4BF] cursor-pointer"
+                        className="p-1.5 text-[#57534E] hover:text-[#0227a1] dark:hover:text-[#7C9BFF] cursor-pointer"
                         title="Edit category"
                       >
                         <Pencil className="w-4 h-4" />
@@ -970,11 +963,11 @@ export function SettingsPage() {
         </div>
       )}
 
-      {/* TAB 3: ACCOUNT & THEME */}
+      {/* TAB 3: ACCOUNT */}
       {tab === "account" && (
-        <div className="rounded-xl border border-[#E7E5E4] dark:border-[#2A2E35] bg-white dark:bg-[#1A1D21] p-5 space-y-4 max-w-lg">
-          <h2 className="font-semibold">Account & Appearance</h2>
-          <div className="text-sm space-y-1">
+        <div className="rounded-2xl border border-[#E7E5E4] dark:border-[#2A2E35] bg-white dark:bg-[#1A1D21] p-5 space-y-4 max-w-lg">
+          <h2 className="font-semibold text-base">Account & Theme</h2>
+          <div className="text-xs space-y-1.5">
             <p>
               <span className="text-[#57534E] dark:text-[#9CA3AF]">Name: </span>
               {user?.name}
@@ -984,13 +977,8 @@ export function SettingsPage() {
               {user?.email}
             </p>
           </div>
-          <div className="pt-2 border-t border-[#E7E5E4] dark:border-[#2A2E35] flex items-center justify-between">
-            <div>
-              <p className="text-sm font-medium">Theme</p>
-              <p className="text-xs text-[#57534E] dark:text-[#9CA3AF]">
-                Switch between Warm Paper & Quiet Night Study
-              </p>
-            </div>
+          <div className="pt-3 border-t border-[#E7E5E4] dark:border-[#2A2E35] flex items-center justify-between">
+            <p className="text-xs font-medium">Appearance</p>
             <ThemeToggle showLabel />
           </div>
         </div>

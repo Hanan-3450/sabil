@@ -34,7 +34,7 @@ export function AppShell() {
           </button>
         </div>
 
-        <nav className="space-y-1">
+        <nav className="space-y-1.5">
           {navItems.map(({ to, label, icon: Icon }) => (
             <NavLink
               key={to}
@@ -43,7 +43,7 @@ export function AppShell() {
               className={({ isActive }) =>
                 `flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
                   isActive
-                    ? "bg-[#F0FDFA] dark:bg-[#0F766E]/20 text-[#0F766E] dark:text-[#2DD4BF] border border-[#CCFBF1] dark:border-[#115E59]"
+                    ? "bg-[#0227a1]/8 dark:bg-[#0227a1]/30 text-[#0227a1] dark:text-[#7C9BFF] border border-[#0227a1]/20 dark:border-[#7C9BFF]/30"
                     : "text-[#57534E] dark:text-[#9CA3AF] hover:bg-[#FAF8F5] dark:hover:bg-[#121417] hover:text-[#1C1917] dark:hover:text-[#ECEAE4] border border-transparent"
                 }`
               }
@@ -102,9 +102,8 @@ export function AppShell() {
         <SidebarContent />
       </aside>
 
-      {/* Main Area */}
+      {/* Main Content Area */}
       <div className="flex-1 flex flex-col min-w-0">
-        {/* Mobile Top Bar with Hamburger Button */}
         <header className="lg:hidden sticky top-0 z-30 flex items-center justify-between px-4 py-3 border-b border-[#E7E5E4] dark:border-[#2A2E35] bg-white/95 dark:bg-[#1A1D21]/95 backdrop-blur-sm">
           <button
             onClick={() => setSidebarOpen(true)}
