@@ -8,16 +8,18 @@ import {
 } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 
-export const S3_BUCKET = process.env.S3_BUCKET || "sabil-media";
+export const S3_BUCKET = (process.env.S3_BUCKET || "sabil-media").trim();
 
 export const s3Client = new S3Client({
-  region: process.env.S3_REGION || "us-east-1",
-  endpoint: process.env.S3_ENDPOINT,
+  region: (process.env.S3_REGION || "us-east-1").trim(),
+  endpoint: process.env.S3_ENDPOINT?.trim(),
   credentials: {
-    accessKeyId: process.env.S3_ACCESS_KEY || "",
-    secretAccessKey: process.env.S3_SECRET_KEY || "",
+    accessKeyId: (process.env.S3_ACCESS_KEY || "").trim(),
+    secretAccessKey: (process.env.S3_SECRET_KEY || "").trim(),
   },
   forcePathStyle: true,
+  requestChecksumCalculation: "WHEN_REQUIRED",
+  responseChecksumValidation: "WHEN_REQUIRED",
 });
 
 export async function ensureBucketExists() {
